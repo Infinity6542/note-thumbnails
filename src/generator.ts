@@ -38,7 +38,7 @@ export async function generate(app: App,
 				break;
 			}
 			default: {
-				div = document.createDiv();
+				div = document.body.createDiv();
 			}
 		}
 
@@ -133,7 +133,7 @@ async function renderCM(
 			await delay(500);
 
 			const contentDiv = view.contentEl.querySelector(".cm-content.cm-lineWrapping");
-			const tempDiv = document.createElement("div");
+			const tempDiv = document.body.createDiv();
 			tempDiv.className = "markdown-source-view mod-cm6 is-live-preview";
 
 			tempDiv.innerHTML = contentDiv ? contentDiv.innerHTML : "";
