@@ -18,9 +18,10 @@ export async function generate(app: App,
 	try {
 		console.debug("Started generation");
 		let div: HTMLElement;
-		// if (app.vault.getAbstractFileByPath(".thumbnail")) {
-		// 	await app.vault.createFolder(".thumbnail");
-		// };
+		if (!app.vault.getAbstractFileByPath(`${plugin.settings.folder}`)) {
+			await app.vault.createFolder(`${plugin.settings.folder}`);
+		}
+
 		const width = 1080;
 		const height = Math.round(width * (rHeight / rWidth));
 
@@ -109,12 +110,15 @@ async function renderCM(
 	width: number,
 ) {
 	try {
+		const prevLeaf = app.workspace.getMostRecentLeaf();
 		console.debug("Rendering via CodeMirror");
-		const leaf: WorkspaceLeaf = app.workspace.getLeaf(true);
+		const leaf: WorkspaceLeaf = app.workspace.getLeaf("tab");
 		await leaf.openFile(file, { active: false });
 		const view: MarkdownView = leaf.view as MarkdownView;
 		const state = view.getState() as { mode: string };
 		const container = document.body.createDiv();
+
+		app.workspace.setActiveLeaf(prevLeaf, { focus: true});
 
 		if (state.mode != "preview") {
 			await view.setState({ mode: "preview" }, { history: false });
