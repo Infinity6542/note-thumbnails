@@ -8,12 +8,31 @@
 stages:
 - test
 - secret-detection
+- build
 sast:
   stage: test
 include:
 - template: Security/SAST.gitlab-ci.yml
 - template: Security/Secret-Detection.gitlab-ci.yml
+
 variables:
   SECRET_DETECTION_ENABLED: 'true'
+
 secret_detection:
   stage: secret-detection
+
+build:
+	stage: build
+	image: node:${NODE_VERSION}
+	cache:
+		key: ${CI_COMMIT_REF_SLUG}-${NODE_VERSION}
+		paths:
+			- .npm/
+	parallel:
+		matrix:
+			- NODE_VERSION: ["20", "22", "24", "25"]
+	before_script:
+		- npm ci --cache .npm --prefer-offline
+	script:
+		- npm run build --if-present
+		- npm run lint
