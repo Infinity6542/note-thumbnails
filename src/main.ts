@@ -13,7 +13,7 @@ export default class ThumbnailPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
-		this.addRibbonIcon("document", "Create thumbnail", async (evt: MouseEvent) => {
+		this.addRibbonIcon("document", "Create thumbnail", async () => {
 			await generate(this.app, this, this.app.workspace.getActiveFile() as TFile);
 		});
 
