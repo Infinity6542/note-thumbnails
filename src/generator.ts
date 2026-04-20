@@ -52,6 +52,7 @@ export async function generate(app: App,
 		if (plugin.settings.mode == "quality") {
 			title.addClass("thumbnail-heading");
 		}
+
 		const data = await domtoimage.toJpeg(div);
 		const base64 = data.split(",")[1];
 		if (!base64) throw new Error("[ERR] [TML] [GEN] Couldn't generate thumbnail");
