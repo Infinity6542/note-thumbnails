@@ -36,4 +36,3 @@ export default class ThumbnailPlugin extends Plugin {
 	}
 }
 
-
