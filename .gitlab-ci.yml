@@ -30,7 +30,7 @@ build:
       - .npm/
   parallel:
     matrix:
-      - NODE_VERSION: ["20", "22", "24", "25"]
+      - NODE_VERSION: ["22", "24"]
   before_script:
     - npm ci --cache .npm --prefer-offline
   script:
