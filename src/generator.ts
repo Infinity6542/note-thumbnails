@@ -120,7 +120,9 @@ async function renderCM(
 		const state = view.getState() as { mode: string };
 		const container = document.body.createDiv();
 
-		app.workspace.setActiveLeaf(prevLeaf, { focus: true});
+		if (prevLeaf instanceof WorkspaceLeaf) {
+			app.workspace.setActiveLeaf(prevLeaf, { focus: true });
+		}
 
 		if (state.mode != "preview") {
 			await view.setState({ mode: "preview" }, { history: false });
