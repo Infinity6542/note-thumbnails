@@ -11,7 +11,9 @@ import domtoimage from "dom-to-image-more";
 export async function generate(app: App,
 	plugin: ThumbnailPlugin,
 	file: TFile,
-	// ratio: number
+	rHeight: number,
+	rWidth: number,
+	// Height and width are passed as ratio options, not physical pixel values
 ): Promise<string | err> {
 	try {
 		console.debug("Started generation");
@@ -19,6 +21,8 @@ export async function generate(app: App,
 		// if (app.vault.getAbstractFileByPath(".thumbnail")) {
 		// 	await app.vault.createFolder(".thumbnail");
 		// };
+		const width = 1080;
+		const height = Math.round(width * (rHeight / rWidth));
 
 		let path = `${plugin.settings.folder}/${file.path}.jpg`
 		switch (plugin.settings.mode) {
@@ -29,7 +33,7 @@ export async function generate(app: App,
 				break;
 			}
 			case "quality": {
-				const returned = await renderCM(app, file);
+				const returned = await renderCM(app, file, height, width);
 				div = returned instanceof HTMLElement ? returned : document.body.createDiv();
 				console.debug(div);
 				break;
@@ -44,10 +48,8 @@ export async function generate(app: App,
 		title.textContent = file.basename;
 		div.prepend(title);
 
-		// const width = div.offsetWidth;
-		// const height = Math.round(width * (ratio));
-		// div.style.minHeight = `${height}px`;
-
+		div.style.width = `${width}px`;
+		div.style.height = `${height}px`;
 		const data = await domtoimage.toJpeg(div);
 		const base64 = data.split(",")[1];
 		if (!base64) throw new Error("[ERR] [TML] [GEN] Couldn't generate thumbnail");
@@ -103,6 +105,8 @@ async function renderMD(
 async function renderCM(
 	app: App,
 	file: TFile,
+	height: number,
+	width: number,
 ) {
 	try {
 		console.debug("Rendering via CodeMirror");
@@ -150,7 +154,7 @@ async function renderCM(
         </style>
       `;
 
-			html = `<div class="thumbnail-container markdown-source-view mod-cm6 is-live-preview">
+			html = `<div class="thumbnail-cm-renderer-container markdown-source-view mod-cm6 is-live-preview" style="height: ${height}px; width: ${width}px;">
 					${styles}
 					${tempDiv.innerHTML}
 					</div>`
