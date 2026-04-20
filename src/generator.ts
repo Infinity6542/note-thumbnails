@@ -48,6 +48,10 @@ export async function generate(app: App,
 
 		div.style.width = `${width}px`;
 		div.style.height = `${height}px`;
+		div.addClass("thumbnail-renderer-container");
+		if (plugin.settings.mode == "quality") {
+			title.addClass("thumbnail-heading");
+		}
 		const data = await domtoimage.toJpeg(div);
 		const base64 = data.split(",")[1];
 		if (!base64) throw new Error("[ERR] [TML] [GEN] Couldn't generate thumbnail");
@@ -139,10 +143,13 @@ async function renderCM(
 			tempDiv.innerHTML = contentDiv ? contentDiv.innerHTML : "";
 
 			tempDiv.querySelectorAll(".cm-active").forEach(el => el.removeClass("cm-active"));
+			tempDiv.querySelectorAll('[contenteditable]').forEach(el => {
+				if (!el.textContent?.trim()) el.remove();
+			});
 			tempDiv.querySelectorAll(".edit-block-button, .callout-fold, .cm-widgetBuffer, .table-col-drag-handle, .cm-fold-indicator, .table-row-btn, .table-row-drag-handle, .table-col-btn, .table-row-drag-handle").forEach(el => el.remove());
 
 			const styles = `
-        <style>
+        <style style="display: none;">
           .export-image-root .list-bullet {
               margin-left: -24px !important;
           }
