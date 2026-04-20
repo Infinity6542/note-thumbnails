@@ -55,7 +55,7 @@ export async function generate(app: App,
 		const data = await domtoimage.toJpeg(div);
 		const base64 = data.split(",")[1];
 		if (!base64) throw new Error("[ERR] [TML] [GEN] Couldn't generate thumbnail");
-		const binary = Uint8Array.from(atob(base64 as string), c => c.charCodeAt(0));
+		const binary = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
 		const lock = app.vault.getFileByPath(path);
 		if (lock) {
 			await app.vault.modifyBinary(lock, binary);
