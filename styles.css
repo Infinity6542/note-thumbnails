@@ -1,0 +1,9 @@
+.thumbnail-renderer-container {
+	position: fixed;
+	left: -9999px;
+}
+
+.thumbnail-renderer-container .obsidian-banner-wrapper {
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+}

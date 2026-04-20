@@ -1,0 +1,10 @@
+{
+	"id": "note-thumbnails",
+	"name": "Note Thumbnails",
+	"version": "0.1.0",
+	"minAppVersion": "0.15.0",
+	"description": "Generates snapshots of notes to use as thumbnails in the cards layout for Bases.",
+	"author": "infinity6542",
+	"authorUrl": "https://obsidiahttps://github.com/infinity6542",
+	"isDesktopOnly": false
+}
