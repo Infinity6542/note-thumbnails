@@ -30,17 +30,14 @@ export async function generate(app: App,
 			case "speed": {
 				const returned = await renderMD(app, file);
 				div = returned instanceof HTMLElement ? returned : document.body.createDiv();
-				console.debug(div);
 				break;
 			}
 			case "quality": {
 				const returned = await renderCM(app, file, height, width);
 				div = returned instanceof HTMLElement ? returned : document.body.createDiv();
-				console.debug(div);
 				break;
 			}
 			default: {
-				console.debug("e");
 				div = document.createDiv();
 			}
 		}
