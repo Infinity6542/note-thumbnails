@@ -58,9 +58,9 @@ export async function generate(app: App,
 		const binary = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
 		const lock = app.vault.getFileByPath(path);
 		if (lock) {
-			await app.vault.modifyBinary(lock, binary);
+			await app.vault.modifyBinary(lock, binary.buffer);
 		} else {
-			await app.vault.createBinary(path, binary);
+			await app.vault.createBinary(path, binary.buffer);
 		}
 
 		div.remove();
