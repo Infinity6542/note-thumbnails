@@ -44,7 +44,7 @@ release:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   needs:
     - job: build
-	  artifacts: true
+    artifacts: true
   script:
 	- glab release create "${CI_COMMIT_TAG}"
 	  --name "${CI_COMMIT_TAG}"
