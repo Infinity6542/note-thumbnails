@@ -51,12 +51,12 @@ release:
   needs:
     - job: "build: [24]"
       artifacts: true
+  script:
+    - echo "Beginning release..."
   release:
     tag_name: $CI_COMMIT_TAG
     name: "Release $CI_COMMIT_TAG"
     description: "An automated build and release of $CI_COMMIT_TAG."
-    script:
-      - echo "Beginning release..."
     assets:
       links:
         - name: "main.js"
