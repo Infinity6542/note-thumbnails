@@ -38,20 +38,30 @@ build:
   script:
     - npm run build --if-present
     - npm run lint
+  artifacts:
+    paths:
+      - main.js
+      - manifest.json
+      - styles.css
+    expire_in: 1 week
 
 release:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   needs:
-    - job: build
-    artifacts: true
-  script:
-	- glab release create "${CI_COMMIT_TAG}"
-	  --name "${CI_COMMIT_TAG}"
-      --assets-links '[
-          {"name":"main.js","url":"${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_TAG}/raw/main.js?job=build"},
-          {"name":"manifest.json","url":"${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_TAG}/raw/manifest.json?job=build"},
-          {"name":"styles.css","url":"${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_TAG}/raw/styles.css?job=build"}
-        ]'
+    - job: "build: [24]"
+      artifacts: true
+  release:
+    tag_name: $CI_COMMIT_TAG
+    name: "Release $CI_COMMIT_TAG"
+    description: "An automated build and release of $CI_COMMIT_TAG."
+    assets:
+      links:
+        - name: "main.js"
+          url: "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_TAG}/raw/main.js?job=build:%20%5B24%5D"
+        - name: "manifest.json"
+          url: "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_TAG}/raw/manifest.json?job=build:%20%5B24%5D"
+        - name: "styles.css"
+          url: "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_TAG}/raw/styles.css?job=build:%20%5B24%5D"
   rules:
 	- if: $CI_COMMIT_TAG
