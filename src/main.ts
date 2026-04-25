@@ -33,7 +33,6 @@ export default class ThumbnailPlugin extends Plugin {
 
 		let bases = await getBases(this.app);
 		bases.forEach((base) => {
-			console.debug(base);
 			console.debug(getFiles(this.app, base));
 		});
 	}
