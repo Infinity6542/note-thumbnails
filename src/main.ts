@@ -2,6 +2,7 @@ import { Plugin, TFile } from 'obsidian';
 import { PluginSettings } from './types';
 import { generate } from "./generator";
 import { SettingTab } from './settings';
+import { getBases, getFiles } from './listeners/bases';
 
 const defaultSettings: PluginSettings = {
 	mode: "speed",
@@ -16,7 +17,12 @@ export default class ThumbnailPlugin extends Plugin {
 		this.addRibbonIcon("document", "Create thumbnail", async () => {
 			const file = this.app.workspace.getActiveFile();
 			if (file instanceof TFile) {
-				await generate(this.app, this, file, 16, 9);
+				let path = await generate(this.app, this, file, 16, 9);
+				if (typeof path === "string") {
+					await this.app.fileManager.processFrontMatter(file, (frontmatter: Record<string, unknown>) => {
+						frontmatter["thumbnail"] = `[[${path}]]`;
+					});
+				}
 			} else {
 				console.error("Not a file open, not generating thumbnail.");
 				return;
@@ -24,6 +30,12 @@ export default class ThumbnailPlugin extends Plugin {
 		});
 
 		this.addSettingTab(new SettingTab(this.app, this));
+
+		let bases = await getBases(this.app);
+		bases.forEach((base) => {
+			console.debug(base);
+			console.debug(getFiles(this.app, base));
+		});
 	}
 
 	onunload() {

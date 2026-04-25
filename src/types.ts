@@ -1,4 +1,4 @@
-import { TFolder, SearchResult } from "obsidian";
+import { TFile, TFolder, SearchResult } from "obsidian";
 
 export interface PluginSettings {
 	mode: string; // only speed and quality are accepted
@@ -13,4 +13,10 @@ export interface err {
 export interface FolderMatch {
 	item: TFolder;
 	match: SearchResult;
+}
+
+export interface Base {
+	path: string;
+	file: TFile;
+	content: string;
 }
