@@ -14,9 +14,33 @@ export default class ThumbnailPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 
-		this.addRibbonIcon("document", "Create thumbnail", async () => {
+		this.addRibbonIcon("documents", "Create thumbnails", async () => {
+			let bases = await getBases(this.app);
+			console.debug(bases);
+			for (const base of bases) {
+				console.debug(base);
+				let files = getFiles(this.app, base);
+				for (const file of files) {
+					console.debug(file);
+					if (file instanceof TFile) {
+						let path = await generate(this.app, this, file, 16, 9);
+						if (typeof path === "string") {
+							await this.app.fileManager.processFrontMatter(file, (frontmatter: Record<string, unknown>) => {
+								frontmatter["thumbnail"] = `[[${path}]]`;
+							});
+						}
+					} else {
+						console.error("Not a file open, not generating thumbnail.");
+						return;
+					}
+				};
+			};
+		});
+
+		this.addRibbonIcon("document", "Create thumbnail for this document", async () => {
 			const file = this.app.workspace.getActiveFile();
-			if (file instanceof TFile) {
+
+			if (file instanceof TFile && file.extension != "base") {
 				let path = await generate(this.app, this, file, 16, 9);
 				if (typeof path === "string") {
 					await this.app.fileManager.processFrontMatter(file, (frontmatter: Record<string, unknown>) => {
@@ -27,14 +51,9 @@ export default class ThumbnailPlugin extends Plugin {
 				console.error("Not a file open, not generating thumbnail.");
 				return;
 			}
-		});
+		})
 
 		this.addSettingTab(new SettingTab(this.app, this));
-
-		let bases = await getBases(this.app);
-		bases.forEach((base) => {
-			console.debug(getFiles(this.app, base));
-		});
 	}
 
 	onunload() {
