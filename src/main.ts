@@ -1,5 +1,5 @@
 import { Plugin, TFile } from 'obsidian';
-import { PluginSettings } from './types';
+import { Base, PluginSettings } from './types';
 import { generate } from "./generator";
 import { SettingTab } from './settings';
 import { getBases, getFiles } from './listeners/bases';
@@ -11,11 +11,13 @@ const defaultSettings: PluginSettings = {
 
 export default class ThumbnailPlugin extends Plugin {
 	settings: PluginSettings;
+	bases: Base[];
+
 	async onload() {
 		await this.loadSettings();
 
 		this.addRibbonIcon("documents", "Create thumbnails", async () => {
-			let bases = await getBases(this.app);
+			let bases = await getBases(this);
 			console.debug(bases);
 			for (const base of bases) {
 				console.debug(base);

@@ -1,5 +1,6 @@
 import { App, TFile, parseYaml } from "obsidian";
 import { Base } from "../types";
+import ThumbnailPlugin from "main";
 
 type Filter =
 	| undefined
@@ -13,16 +14,17 @@ interface Schema {
 	views?: Array<{ filters: Filter;[key: string]: unknown }>;
 }
 
-export async function getBases(app: App): Promise<Array<Base>> {
-	const files = app.vault.getFiles().filter((v) => v.extension === "base");
+export async function getBases(plugin: ThumbnailPlugin): Promise<Array<Base>> {
+	const files = plugin.app.vault.getFiles().filter((v) => v.extension === "base");
 	const bases: Array<Base> = [];
 	for (const file of files) {
 		bases.push({
 			path: file.path,
 			file: file,
-			content: await app.vault.read(file),
+			content: await plugin.app.vault.read(file),
 		});
 	}
+	plugin.bases = bases;
 	return bases;
 }
 
