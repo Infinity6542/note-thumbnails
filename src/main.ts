@@ -63,7 +63,7 @@ export default class ThumbnailPlugin extends Plugin {
 
 		this.registerInterval(window.setInterval(() => {
 			(async () => {
-				console.debug("Automatically generating thumbnails...");
+				console.debug("Automatically looking for bases...");
 				await getBases(this);
 			})().catch(e => console.error("Thumbnails -", e));
 		}, 1 * 60 * 1000));
