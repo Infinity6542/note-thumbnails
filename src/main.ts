@@ -60,6 +60,13 @@ export default class ThumbnailPlugin extends Plugin {
 		})
 
 		this.addSettingTab(new SettingTab(this.app, this));
+
+		this.registerInterval(window.setInterval(() => {
+			(async () => {
+				console.debug("Automatically generating thumbnails...");
+				await getBases(this);
+			})().catch(e => console.error("Thumbnails -", e));
+		}, 1 * 60 * 1000));
 	}
 
 	onunload() {
