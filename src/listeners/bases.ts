@@ -18,6 +18,10 @@ export async function getBases(plugin: ThumbnailPlugin): Promise<Array<Base>> {
 	const files = plugin.app.vault.getFiles().filter((v) => v.extension === "base");
 	const bases: Array<Base> = [];
 	for (const file of files) {
+		const base = plugin.bases.find((f) => f.path == file.path);
+		if (base) {
+			plugin.bases.remove(base);
+		}
 		bases.push({
 			path: file.path,
 			file: file,
