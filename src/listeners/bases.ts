@@ -29,6 +29,7 @@ export async function getBases(plugin: ThumbnailPlugin): Promise<Array<Base>> {
 		});
 	}
 	plugin.bases = bases;
+	console.debug("Thumnbnails - bases found:", bases)
 	return bases;
 }
 
