@@ -1,4 +1,4 @@
-import { Command, Plugin, TFile } from 'obsidian';
+import { Command, parseYaml, Plugin, TFile } from 'obsidian';
 import { Base, PluginSettings } from './types';
 import { generate } from "./generator";
 import { SettingTab } from './settings';
@@ -11,7 +11,8 @@ const defaultSettings: PluginSettings = {
 
 export default class ThumbnailPlugin extends Plugin {
 	settings: PluginSettings;
-	bases: Base[];
+	bases: Base[] = [];
+	files: TFile[] = [];
 
 	async onload() {
 		await this.loadSettings();
@@ -23,12 +24,17 @@ export default class ThumbnailPlugin extends Plugin {
 				let bases = await getBases(this);
 				console.debug(bases);
 				for (const base of bases) {
-					console.debug(base);
+					// TODO: automatic rebuilding of thumbnails upon changes in base cards config
+					// TODO: automatic rebulding of thumbnails upon changes in file
+					// TODO: make this safer
+					const width = parseYaml(base.content).views[0].cardSize as number;
+					const height = width * parseYaml(base.content).views[0].imageAspectRatio;
 					let files = getFiles(this.app, base);
 					for (const file of files) {
 						console.debug(file);
 						if (file instanceof TFile) {
-							let path = await generate(this.app, this, file, 16, 9);
+							console.debug(height, width)
+							let path = await generate(this.app, this, file, height, width);
 							if (typeof path === "string") {
 								await this.app.fileManager.processFrontMatter(file, (frontmatter: Record<string, unknown>) => {
 									frontmatter["thumbnail"] = `[[${path}]]`;
@@ -66,7 +72,7 @@ export default class ThumbnailPlugin extends Plugin {
 				console.debug("Automatically looking for bases...");
 				await getBases(this);
 			})().catch(e => console.error("Thumbnails -", e));
-		}, 1 * 60 * 1000));
+		}, 10 * 1000));
 	}
 
 	onunload() {
