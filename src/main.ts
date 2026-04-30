@@ -1,5 +1,5 @@
 import { Command, parseYaml, Plugin, TFile } from 'obsidian';
-import { Base, PluginSettings } from './types';
+import { Base, BaseSchema, PluginSettings } from './types';
 import { generate } from "./generator";
 import { SettingTab } from './settings';
 import { getBases, getFiles } from './listeners/bases';
@@ -26,9 +26,18 @@ export default class ThumbnailPlugin extends Plugin {
 				for (const base of bases) {
 					// TODO: automatic rebuilding of thumbnails upon changes in base cards config
 					// TODO: automatic rebulding of thumbnails upon changes in file
-					// TODO: make this safer
-					const width = parseYaml(base.content).views[0].cardSize as number;
-					const height = width * parseYaml(base.content).views[0].imageAspectRatio;
+					const parsed = parseYaml(base.content) as BaseSchema;
+					console.debug(parseYaml(base.content));
+					let width, height;
+					const view = parsed.views[base.cardsIndex];
+					if (parsed.views && view) {
+						width = view.cardSize as number;
+						height = width * (view.imageAspectRatio as number);
+					} else {
+						width = 1080;
+						height = 1920;
+					}
+
 					let files = getFiles(this.app, base);
 					for (const file of files) {
 						console.debug(file);

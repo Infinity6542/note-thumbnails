@@ -19,6 +19,7 @@ export interface Base {
 	path: string;
 	file: TFile;
 	content: string;
+	cardsIndex: number;
 }
 
 export interface BaseSchema {

@@ -7,15 +7,30 @@ export async function getBases(plugin: ThumbnailPlugin): Promise<Array<Base>> {
 	const files = plugin.app.vault.getFiles().filter((v) => v.extension === "base");
 	const bases: Array<Base> = [];
 	for (const file of files) {
-		const base = plugin.bases.find((f) => f.path == file.path);
-		if (base) {
-			plugin.bases.remove(base);
+		const content = await plugin.app.vault.read(file);
+		const parsed = (parseYaml(content) as BaseSchema);
+		let hasCardView: boolean = false;
+		let viewIndex = 0;
+		for (let i = 0; i < parsed.views.length; i++) {
+			let view = parsed.views[i];
+			if (view && view.type == "cards") {
+				hasCardView = true;
+				viewIndex = i;
+				break;
+			}
 		}
-		bases.push({
-			path: file.path,
-			file: file,
-			content: await plugin.app.vault.read(file),
-		});
+		if (hasCardView) {
+			const base = plugin.bases.find((f) => f.path == file.path);
+			if (base) {
+				plugin.bases.remove(base);
+			}
+			bases.push({
+				path: file.path,
+				file: file,
+				content: content,
+				cardsIndex: viewIndex,
+			});
+		}
 	}
 	plugin.bases = bases;
 	console.debug("Thumnbnails - bases found:", bases)
