@@ -5,6 +5,7 @@ The plugin is capable of rendering thumbnails in two different ways:
 - A faster, less "as-seen" render using CodeMirror's `MarkdownRenderer`.
 - A slower, more "as-seen" render by physically rendering the note and capturing its contents.
 ## Installtion & Usage
+### Installation
 1. This plugin is not yet publicly listed (coming soon!). For now, you can use [BRAT](https://github.com/TfTHacker/obsidian42-brat) and ensure it is installed and enabled.
 2. Enter the options/settings for BRAT and add a new beta plugin.
 3. Use `infinity6542/note-thumbnails` as the repository.
