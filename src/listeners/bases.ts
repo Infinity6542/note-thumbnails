@@ -1,18 +1,7 @@
 import { App, TFile, parseYaml } from "obsidian";
-import { Base } from "../types";
+import { Base, Filter, BaseSchema } from "../types";
 import ThumbnailPlugin from "main";
 
-type Filter =
-	| undefined
-	| string
-	| { and: Filter[] }
-	| { or: Filter[] }
-	| { not: Filter[] };
-
-interface Schema {
-	filters?: Filter;
-	views?: Array<{ filters: Filter;[key: string]: unknown }>;
-}
 
 export async function getBases(plugin: ThumbnailPlugin): Promise<Array<Base>> {
 	const files = plugin.app.vault.getFiles().filter((v) => v.extension === "base");
@@ -34,7 +23,7 @@ export async function getBases(plugin: ThumbnailPlugin): Promise<Array<Base>> {
 }
 
 export function getFiles(app: App, base: Base) {
-	const parsed = parseYaml(base.content) as Schema;
+	const parsed = parseYaml(base.content) as BaseSchema;
 	const files = app.vault.getFiles();
 	const globalFilters: Filter = parsed.filters;
 	return files.filter((f) => match(app, f, globalFilters));

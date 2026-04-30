@@ -20,3 +20,15 @@ export interface Base {
 	file: TFile;
 	content: string;
 }
+
+export interface BaseSchema {
+	filters?: Filter;
+	views: Array<{ filters: Filter;type: string;[key: string]: unknown }>;
+}
+
+export type Filter =
+	| undefined
+	| string
+	| { and: Filter[] }
+	| { or: Filter[] }
+	| { not: Filter[] };
