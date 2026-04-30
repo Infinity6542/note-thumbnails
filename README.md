@@ -28,13 +28,13 @@ The plugin is capable of rendering thumbnails in two different ways:
 10. Click "Image property" and choose "thumbnail". Adjust the parameters as you please!
 11. You're done! If the thumbnails don't properly fit the card, simply regenerate the thumbnails (see step 6).
 
-![[3-5.jpg]]
+![3-5](3-5.jpg)
 
-![[6.jpg]]
+![6](6.jpg)
 
-![[7-8.jpg]]
+![7-8](7-8.jpg)
 
-![[9-10.jpg]]
+![9-10](9-10.jpg)
 
 ## Bugs, Issues and Feature Requests
 > [!IMPORTANT]
