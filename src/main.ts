@@ -56,21 +56,6 @@ export default class ThumbnailPlugin extends Plugin {
 			}
 		} as Command);
 
-		this.addRibbonIcon("document", "Create thumbnail for this document", async () => {
-			const file = this.app.workspace.getActiveFile();
-
-			if (file instanceof TFile && file.extension != "base") {
-				let path = await generate(this.app, this, file, 16, 9);
-				if (typeof path === "string") {
-					await this.app.fileManager.processFrontMatter(file, (frontmatter: Record<string, unknown>) => {
-						frontmatter["thumbnail"] = `[[${path}]]`;
-					});
-				}
-			} else {
-				console.error("Not a file open, not generating thumbnail.");
-				return;
-			}
-		})
 
 		this.addSettingTab(new SettingTab(this.app, this));
 
