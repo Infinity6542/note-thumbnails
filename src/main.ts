@@ -104,7 +104,7 @@ export default class ThumbnailPlugin extends Plugin {
 				console.debug("Automatically looking for bases...");
 				await getBases(this);
 			})().catch(e => console.error("Thumbnails -", e));
-		}, 60 * 1000));
+		}, 10 * 1000));
 	}
 
 	onunload() {
