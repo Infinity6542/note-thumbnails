@@ -40,9 +40,7 @@ export default class ThumbnailPlugin extends Plugin {
 
 					let files = getFiles(this.app, base);
 					for (const file of files) {
-						console.debug(file);
 						if (file instanceof TFile) {
-							console.debug(height, width)
 							let path = await generate(this.app, this, file, height, width);
 							if (typeof path === "string") {
 								await this.app.fileManager.processFrontMatter(file, (frontmatter: Record<string, unknown>) => {
