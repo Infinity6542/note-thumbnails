@@ -12,4 +12,5 @@ The plugin is capable of automatically generating thumbnails when the files that
 ## Contributing
 > [!IMPORTANT]
 > The GitHub repository is a read-only mirror. Please fork from and submit pull requests to the [GitLab repository](https://gitlab.com/Infinity6542/note-thumbnails).
+
 Contributions are welcome! Simply fork the repo, make your changes and submit a pull request to [this repository](https://gitlab.com/Infinity6542/note-thumbnails)
