@@ -13,6 +13,9 @@ The plugin is capable of rendering thumbnails in two different ways:
 5. Ensure "Enable after installing the plugin" is ticked and click on "Add plugin".
 6. You're done!
 ### Trying It Out
+> [!TIP]
+> Struggling? Need some help? Check out the labelled screenshots below that explain the more complicated parts of usage!
+
 1. Create some files! Any standard Markdown (e.g. highlights, bold, italics, etc.) syntax is currently supported. Images, canvases, etc. have not yet been tested.
 2. Create a base file. You can do this by right-clicking on the file explorer (not on a file please) and choosing "Create base".
 3. Let's create some filters! Click "Filters" in the top left of the active leaf and click the "All views" dropdown.
@@ -24,6 +27,15 @@ The plugin is capable of rendering thumbnails in two different ways:
 9. Click the "Layout" dropdown and select "Cards".
 10. Click "Image property" and choose "thumbnail". Adjust the parameters as you please!
 11. You're done! If the thumbnails don't properly fit the card, simply regenerate the thumbnails (see step 6).
+
+![[3-5.jpg]]
+
+![[6.jpg]]
+
+![[7-8.jpg]]
+
+![[9-10.jpg]]
+
 ## Bugs, Issues and Feature Requests
 > [!IMPORTANT]
 > The GitHub repository is a read-only mirror. Please make any bug reports or feature requests in the [GitLab repository](https://gitlab.com/Infinity6542/note-thumbnails).
