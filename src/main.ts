@@ -59,6 +59,43 @@ export default class ThumbnailPlugin extends Plugin {
 			}
 		} as Command);
 
+		// this.registerEvent(
+		// 	this.app.vault.on("modify", async (file: TAbstractFile) => {
+		// 		const base = this.bases.find((f) => f.file === file);
+		// 		if (!base) return;
+		//
+		// 		const parsed = parseYaml(base.content) as BaseSchema;
+		// 		console.debug(parseYaml(base.content));
+		// 		let width, height;
+		// 		const view = parsed.views[base.cardsIndex];
+		// 		if (parsed.views && view) {
+		// 			width = view.cardSize as number;
+		// 			height = width * (view.imageAspectRatio as number);
+		// 		} else {
+		// 			width = 1080;
+		// 			height = 1920;
+		// 		}
+		// 		if (file instanceof TFile && base) {
+		// 			const files = getFiles(this.app, base);
+		// 			for (const file of files) {
+		// 				if (file instanceof TFile) {
+		// 					if (!this.files.find((f) => f === file)) {
+		// 						this.files.push(file);
+		// 					}
+		// 					let path = await generate(this.app, this, file, height, width);
+		// 					if (typeof path === "string") {
+		// 						await this.app.fileManager.processFrontMatter(file, (frontmatter: Record<string, unknown>) => {
+		// 							frontmatter["thumbnail"] = `[[${path}]]`;
+		// 						});
+		// 					}
+		// 				} else {
+		// 					console.error("Not a file open, not generating thumbnail.");
+		// 					return;
+		// 				}
+		// 			};
+		// 		}
+		// 	}),
+		// );
 
 		this.addSettingTab(new SettingTab(this.app, this));
 
